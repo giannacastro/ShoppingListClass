@@ -1,1 +1,31 @@
-refer to branches
+//represents an order for quantity of an item
+public class ItemOrder {
+
+    //the item being ordered
+    private Item item;
+
+    //the quantity ordered
+    private int quantity;
+
+    //constructor to initialize the item and quantity
+    public ItemOrder(Item item, int quantity) {
+        this.item = item;
+        this.quantity = quantity;
+    }
+
+    //getter for the item
+    public Item getItem() {
+        return item;
+    }
+
+    //getter for the quantity
+    public int getQuantity() {
+        return quantity;
+    }
+
+    //calculates and return the total price
+    public double getTotalPrice() {
+        return item.getPrice() * quantity;
+    }
+
+}
