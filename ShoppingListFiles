@@ -1,45 +1,106 @@
-//represents a shopping cart to hold item orders
-
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.List;
 
-public class ShoppingCart {
+public class ShoppingListGUI extends JFrame {
 
-    //main method
-    public static void main(String[] args) {
+    private JLabel headingLabel;
+    private JTextField itemText;
+    private JTextField priceText;
+    private JButton addButton;
+    private JButton removeButton;
+    private DefaultListModel listModel;
+    private JList itemList;
+    private JLabel totalLabel;
+
+    private ArrayList<Double> prices = new ArrayList<>();
+
+    public ShoppingListGUI() {
+
+        //constructor to initialize GUI
+        setLayout(new FlowLayout());
+
+        // creativity (welcome message)
+        headingLabel = new JLabel("Welcome to your online shopping list!");
+
+        itemText = new JTextField(15);
+        priceText = new JTextField(10);
+
+        addButton = new JButton("Add Item");
+        addButton.addActionListener(new AddItemListener());
+
+        removeButton = new JButton("Remove Item");
+        removeButton.addActionListener(new RemoveItemListener());
+
+        listModel = new DefaultListModel();
+        itemList = new JList(listModel);
+
+        totalLabel = new JLabel("Total: $0");
+
+        add(headingLabel);
+        add(itemText);
+        add(priceText);
+        add(addButton);
+        add(removeButton);
+        add(new JScrollPane(itemList));
+        add(totalLabel);
+
+        setTitle("Shopping List");
+        setSize(400,300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
 
     }
 
-    //list to hold the item orders
-    private List<ItemOrder> itemList;
+    class AddItemListener implements ActionListener {
 
-    //constructor initializes item list
-    public ShoppingCart() {
-        itemList = new ArrayList<>();
-    }
+        public void actionPerformed(ActionEvent e) {
 
-    //adds an item order to the cart
-    public void addItem(ItemOrder itemOrder) {
-        itemList.add(itemOrder);
-    }
+            String itemName = itemText.getText();
+            double itemPrice = Double.parseDouble(priceText.getText());
 
-    //removes an item order from the cart
-    public void removeItem(ItemOrder itemOrder) {
-        itemList.remove(itemOrder);
-    }
+            listModel.addElement(itemName + " - $" + itemPrice);
+            itemList.ensureIndexIsVisible(listModel.size() - 1);
+            prices.add(itemPrice);
+            updateTotal();
 
-    //getter for the item list
-    public List<ItemOrder> getItemList() {
-        return itemList;
-    }
+            itemText.setText("");
+            priceText.setText("");
 
-    //calculates the total price of items
-    public double calculateTotalPrice() {
-        double totalPrice = 0;
-        for (ItemOrder itemOrder : itemList) {
-            totalPrice += itemOrder.getTotalPrice();
         }
-        return totalPrice;
+
+    }
+
+    class RemoveItemListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+
+            int index = itemList.getSelectedIndex();
+            if(index != -1) {
+                prices.remove(index);
+                listModel.remove(index);
+            }
+            updateTotal();
+
+        }
+
+    }
+
+    public void updateTotal() {
+
+        double total = 0;
+
+        for(double price : prices) {
+            total += price;
+        }
+
+        totalLabel.setText("Total: $" + total);
+
+    }
+
+    public static void main(String[] args) {
+        new ShoppingListGUI();
     }
 
 }
