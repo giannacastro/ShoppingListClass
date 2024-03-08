@@ -1,1 +1,26 @@
-refer to branches
+//represents an item with a name and price
+public class Item {
+
+    //stores the name of the item
+    private String name;
+
+    //stores the price of the item
+    private double price;
+
+    //constructor that initialize name and price
+    public Item(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    //getter method to get the name
+    public String getName() {
+        return name;
+    }
+
+    //getter method to get the price
+    public double getPrice() {
+        return price;
+    }
+
+}
