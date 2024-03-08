@@ -1,31 +1,45 @@
-//represents an order for quantity of an item
-public class ItemOrder {
+//represents a shopping cart to hold item orders
 
-    //the item being ordered
-    private Item item;
+import java.util.ArrayList;
+import java.util.List;
 
-    //the quantity ordered
-    private int quantity;
+public class ShoppingCart {
 
-    //constructor to initialize the item and quantity
-    public ItemOrder(Item item, int quantity) {
-        this.item = item;
-        this.quantity = quantity;
+    //main method
+    public static void main(String[] args) {
+
     }
 
-    //getter for the item
-    public Item getItem() {
-        return item;
+    //list to hold the item orders
+    private List<ItemOrder> itemList;
+
+    //constructor initializes item list
+    public ShoppingCart() {
+        itemList = new ArrayList<>();
     }
 
-    //getter for the quantity
-    public int getQuantity() {
-        return quantity;
+    //adds an item order to the cart
+    public void addItem(ItemOrder itemOrder) {
+        itemList.add(itemOrder);
     }
 
-    //calculates and return the total price
-    public double getTotalPrice() {
-        return item.getPrice() * quantity;
+    //removes an item order from the cart
+    public void removeItem(ItemOrder itemOrder) {
+        itemList.remove(itemOrder);
+    }
+
+    //getter for the item list
+    public List<ItemOrder> getItemList() {
+        return itemList;
+    }
+
+    //calculates the total price of items
+    public double calculateTotalPrice() {
+        double totalPrice = 0;
+        for (ItemOrder itemOrder : itemList) {
+            totalPrice += itemOrder.getTotalPrice();
+        }
+        return totalPrice;
     }
 
 }
